@@ -1,0 +1,57 @@
+    parameters:
+      Web_Project_Configuration: "Release"
+      Web_Project_Platform: "Any CPU"
+      Sonar_Project_Key: ''
+      Sonar_Project_Name: ''
+      Web_Solution_File: ''
+
+    steps:
+    - checkout: self
+      fetchDepth: 1
+      clean: true
+
+    - task: VersionDotNetCoreAssemblies@2
+      inputs:
+        Path: '$(System.DefaultWorkingDirectory)'
+        VersionNumber: '$(Build.BuildNumber)'
+        Injectversion: false
+        VersionRegex: '\d+\.\d+\.\d+\.\d+'
+        FilenamePattern: '.csproj'
+        SDKNames: 'Microsoft.NET.Sdk'
+        AddDefault: true
+        OutputVersion: 'OutputedVersion'
+
+    - task: UseDotNet@2
+      displayName: 'Prepare .Net Core SDK'
+      inputs:
+        packageType: 'sdk'
+        version: '6.0.x'
+      condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/')))
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build solution'
+      inputs:
+        command: 'build'
+        arguments: '${{ parameters.Web_Solution_File }} /p:Platform="${{ parameters.Web_Project_Platform }}" /p:configuration="${{ parameters.Web_Project_Configuration }}"'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish Web App Package'
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '${{ parameters.Web_Solution_File }}'
+        arguments: '/p:OutputPath="$(Build.BinariesDirectory)" /p:Platform="${{ parameters.Web_Project_Platform }}" /p:configuration="${{ parameters.Web_Project_Configuration }}" --runtime linux-x64'
+        zipAfterPublish: false
+        modifyOutputPath: false
+      condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/')))
+
+    - powershell: |
+        Copy-Item $(Build.BinariesDirectory) $(Build.ArtifactStagingDirectory)\ATBinaries -recurse -force
+      displayName: 'Copy PS Deployment Scripts and Build Artifacts'
+      condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/')))
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+      condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['Build.SourceBranch'], 'refs/heads/feature/')))

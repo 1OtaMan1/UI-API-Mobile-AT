@@ -1,0 +1,38 @@
+name: $(Build.Version.Number).$(Date:yy)$(DayOfYear).$(Rev:r)
+
+trigger:
+  branches:
+    include:
+    - master
+    - develop
+  paths:
+    exclude:
+    - Build.YML/*
+    - version.yml
+pr: 
+  branches:
+    include:
+    - master
+    - develop
+
+pool:
+  name: SSIP-Agent-Pool
+
+variables:
+- template: ../version.yml
+- name: Build.Version.Number
+  value: ${{ variables.version }}
+- name: Web_Solution_File
+  value: "StopBusinessWithrussiaAT.sln"
+
+stages:
+- stage: Build
+  jobs:
+  - job: Application
+    workspace:
+      clean: all
+    continueOnError: false
+    steps:
+      - template: templates/application-build.yml
+        parameters:
+          Web_Solution_File: ${{ variables.Web_Solution_File }}

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<RunSettings>
+  <RunConfiguration>
+
+    <!-- Path relative to solution directory -->
+    <ResultsDirectory>.\TestResults</ResultsDirectory>
+
+    <!-- [x86] | x64  
+       - You can also change it from menu Test, Test Settings, Default
+         Processor Architecture -->
+    <TargetPlatform>x64</TargetPlatform>
+    <TargetFramework>net6.0</TargetFramework>
+
+    </RunConfiguration>
+  <MSTestV2>
+    <TestTimeout>900000</TestTimeout>
+  </MSTestV2>
+  <TestRunParameters>
+    <Parameter name="BrowserType" value="chrome" />
+    <Parameter name="WaitTimeout" value="30000" />
+    <Parameter name="ElementFindTimeout" value="30000" />
+    <Parameter name="BaseRetryTimeout" value="30000" />
+    <Parameter name="BaseRetryInterval" value="1000" />
+  </TestRunParameters>
+</RunSettings>
