@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "Src\API\API.csproj",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.UI", "Test\UI\Tests.UI.csproj", "{B122BE87-E765-4E50-A98D-6865875BC54B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.API", "Test\API\Tests.API.csproj", "{F8C2C110-DA7D-4D2C-8569-C110E88488E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.API", "Test\API\Tests.API.csproj", "{F8C2C110-DA7D-4D2C-8569-C110E88488E2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B834FD18-C75F-4A41-A6AF-CF46DA305800}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
