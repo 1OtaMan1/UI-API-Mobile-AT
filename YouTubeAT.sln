@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.API", "Test\API\Tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B834FD18-C75F-4A41-A6AF-CF46DA305800}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Android", "Mobile\Android\Android.csproj", "{DA513435-4874-438A-8EF6-B69CA959763C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Android", "Test\Android\Tests.Android.csproj", "{DA513435-4874-438A-8EF6-B69CA959763C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
