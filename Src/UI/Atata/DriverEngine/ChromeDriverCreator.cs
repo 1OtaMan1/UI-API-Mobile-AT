@@ -1,4 +1,5 @@
 ﻿using Atata;
+using Atata.ExtentReports;
 using Core.EnvironmentSettings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
@@ -35,6 +36,8 @@ public class ChromeDriverCreator : IDriverCreator
             .WithOptions(options)
             .AddTraceLogging()
             .WithMinLevel(LogLevel.Info)
+            .AddLogConsumer(new ExtentLogConsumer())
+            .EventSubscriptions.Add(new ExtentScreenshotFileEventHandler())
             .UseElementFindTimeout(TimeSpan.FromMilliseconds(double.Parse(findTimeout)))
             .UseBaseRetryTimeout(TimeSpan.FromMilliseconds(double.Parse(retryTimeout)))
             .UseBaseRetryInterval(TimeSpan.FromMilliseconds(double.Parse(retryInterval)));

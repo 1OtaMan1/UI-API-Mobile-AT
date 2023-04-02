@@ -8,6 +8,7 @@ using API.ApiUsers;
 using Core.EnvironmentSettings;
 using Core.Utils;
 using UI.Atata.DriverEngine;
+using Atata.ExtentReports;
 
 namespace Tests.UI;
 
@@ -36,6 +37,11 @@ public class BaseUiTest
     public void SetUp()
     {
         CloseBrowsers();
+
+        AtataContext.Configure()
+            .UseDriverInitializationStage(AtataContextDriverInitializationStage.OnDemand)
+            .AddLogConsumer<ExtentLogConsumer>()
+            .Build();
 
         DriverFactory.CreateDriverInstance(TestContext);
         AtataContext.Current?.Log.Trace(EnvironmentConfig.GetEnvironmentBaseInfo() +
@@ -83,6 +89,7 @@ public class BaseUiTest
             AtataContext.Current?.Log.Info(message);
         }
 
+        ExtentContext.Reports.Flush();
         AtataContext.Current?.CleanUp();
     }
 
